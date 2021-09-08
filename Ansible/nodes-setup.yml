@@ -1,4 +1,5 @@
---- # this is just an example
+# store in controller host
+# this is just an example
 - hosts: nodes
   vars:
     home: "/home/vagrant"

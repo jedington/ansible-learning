@@ -1,6 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-#controller.vm.provision :shell, path: 'ubuntu-setup.sh'
+# use from vagrant host
 
 Vagrant.configure("2") do |config|
 	config.vm.define "controller" do |controller|
@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
 		controller.vm.provider "virtualbox" do |vb|
 			vb.memory = "256"
         end
-    end
+    end # controller.vm.provision :shell, path: 'ubuntu-setup.sh'
 end
 
 (1..4).each do |i|

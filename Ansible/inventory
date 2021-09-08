@@ -1,4 +1,4 @@
-# store this file in /etc/ansible/hosts of the controller
+# store in /etc/ansible/hosts of the controller
 
 [local]
 localhost ansible_connection=local
