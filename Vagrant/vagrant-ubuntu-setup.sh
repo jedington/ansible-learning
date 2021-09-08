@@ -1,5 +1,5 @@
 #!/bin/bash
-# use from vagrant host
+# use from vagrant host--make sure its in the same directory as Vagrantfile!
 sudo apt-get update
 sudo apt-get install software-properties-common -y
 
