@@ -1,0 +1,49 @@
+# store in controller host '~/<this file>'
+
+- name: Install python in all remote nodes
+  hosts: all
+  become: true
+  gather_facts: no
+  pre_tasks:
+  - name: install python
+    raw: 'cat < ~/python-remote-setup.sh'
+    args:
+      executable: /bin/bash
+
+# devs
+- hosts: devs
+  become: yes
+  tasks:
+    - name: "install git"
+      apt:
+        name: git
+        state: latest
+    - name: "install neovim"
+      apt:
+        name: neovim
+        state: latest
+    - name: "setup dev folder"
+      file:
+        path: /code
+        state: directory
+    - name: "add dev group"
+      group:
+        name: developers
+        state: present
+
+# nodes
+- hosts: nodes
+  vars:
+    home: "/home/vagrant"
+    images: "/home/vagrant/images"
+  tasks:
+    - name: "find the files in home directory"
+      shell: "ls -lah {{ home }}"
+    - name: "create a file in home directory"
+      file:
+        path: "{{ home }}/awesome.txt"
+        state: touch
+    - name: "create the picture folder"
+      file:
+        path: "{{ images }}"
+        state: directory
