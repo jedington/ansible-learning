@@ -7,9 +7,9 @@
       apt:
         name: git
         state: latest
-    - name: "install vim"
+    - name: "install neovim"
       apt:
-        name: vim
+        name: neovim
         state: latest
     - name: "setup dev folder"
       file:
