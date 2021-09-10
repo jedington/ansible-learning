@@ -17,6 +17,26 @@
     args:
       executable: '/bin/bash'
 
+- hosts: devs
+  become: true # newer ansible version of 'sudo'
+  tasks:
+    - name: "install git"
+      apt:
+        name: git
+        state: latest
+    - name: "install vim"
+      apt:
+        name: vim
+        state: latest
+    - name: "setup dev folder"
+      file:
+        path: /code
+        state: directory
+    - name: "add dev group"
+      group:
+        name: developers
+        state: present
+
 - name: "Install and setup node environments"
   hosts: nodes
   vars:
