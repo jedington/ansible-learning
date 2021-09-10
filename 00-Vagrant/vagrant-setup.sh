@@ -1,5 +1,5 @@
 #!/bin/bash
-# store in controller host '~/<this file>'
+# use from vagrant host--make sure its in the same directory as Vagrantfile!
 
 declare -A osInfo;
 osInfo[/etc/debian_version]="apt"
@@ -29,3 +29,18 @@ fi
 
 sudo $package_manager install python3
 sudo $package_manager update
+
+#- sudo apt remove ansible && sudo apt --purge autoremove 
+# ^ if older/stale ansible version exists ^
+sudo $package_manager install ansible -y
+#- ansible --version | grep "python version" # optional
+
+echo "
+10.10.10.10 controller
+10.10.10.11 node1
+10.10.10.12 node2
+10.10.10.13 node3
+10.10.10.21 dev1
+10.10.10.22 dev2
+10.10.10.23 dev3
+" >> /etc/hosts
