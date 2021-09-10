@@ -1,49 +1,35 @@
 # store in controller host '~/<this file>'
 
-- name: Install python in all remote nodes
-  hosts: all
-  become: true
+- name: "Install inventory mapping and setup all remote nodes"
+  hosts: devs, nodes
+  become: true # newer ansible version of 'sudo'
   gather_facts: no
   pre_tasks:
+  - name: Add Ansible inventory mappings to /etc/hosts
+    blockinfile:
+      path: /etc/hosts
+      block: |
+        {% for host in groups['all'] %}
+        {{ hostvars[host].ansible_host }} {{ host }}
+        {% endfor %}
   - name: install python
     raw: 'cat < ~/python-remote-setup.sh'
     args:
-      executable: /bin/bash
+      executable: '/bin/bash'
 
-# devs
-- hosts: devs
-  become: yes
-  tasks:
-    - name: "install git"
-      apt:
-        name: git
-        state: latest
-    - name: "install neovim"
-      apt:
-        name: neovim
-        state: latest
-    - name: "setup dev folder"
-      file:
-        path: /code
-        state: directory
-    - name: "add dev group"
-      group:
-        name: developers
-        state: present
-
-# nodes
-- hosts: nodes
+- name: "Install and setup node environments"
+  hosts: nodes
   vars:
-    home: "/home/vagrant"
-    images: "/home/vagrant/images"
+    home: '/home/vagrant' # can change depending on hierarchy pref
+    images: '/home/vagrant/images' # can change depending on hierarchy pref
   tasks:
     - name: "find the files in home directory"
-      shell: "ls -lah {{ home }}"
+      shell: 'ls -lah {{ home }}'
     - name: "create a file in home directory"
       file:
-        path: "{{ home }}/awesome.txt"
+        path: '{{ home }}/awesome.txt'
         state: touch
     - name: "create the picture folder"
       file:
-        path: "{{ images }}"
+        path: '{{ images }}'
         state: directory
