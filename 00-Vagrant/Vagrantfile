@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
 		controller.vm.box = "bento/ubuntu-16.04"
 		controller.vm.hostname = "controller"
 		controller.vm.network :private_network, ip: "10.10.10.10"
-		controller.vm.provision :shell, path: 'vagrant-setup.sh'
+		controller.vm.provision :shell, path: 'vagrant-controller-setup.sh'
     end
 	(1..3).each do |i|
 		config.vm.define "node#{i}" do |node|
