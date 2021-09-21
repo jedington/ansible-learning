@@ -13,9 +13,13 @@
 2. Install [Vagrant](https://www.vagrantup.com/docs/installation) on your local host.
 3. Setup Vagrant via instructions from source.
 4. Run Vagrant via CLI of choice and begin with using Vagrantfile (replace default with the one from this repo).
-5. Copy files from this repo ../01-Ansible/ into the Controller Host. Can use any means.
-6. Figure out auth for remote hosts, can refer to ssh-setup-example.sh
-7. Run 'sudo ansible-playbook -i ~/ all-setup.yml'
+5. Clone this repo into the Controller Node. Can use any means.
+    - Navigate into Controller Node, then do something like below:
+    - [Example] CLI/run: `git clone jedington/ansible-learning.git`
+6. Copy files from '../01-Ansible/(copy-files-here)' into Controller Node '~/(paste-files-here)'. 
+7. Figure out auth for remote hosts, can use 'ssh-setup-example.sh', edit the Node IPs if you need to.
+    - [Example] CLI/run: `sudo ssh-setup-example.sh`.
+8. CLI/run: `sudo ansible-playbook -i ~/ all-setup.yml`
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
