@@ -1,7 +1,7 @@
 # store in controller host '~/<this file>'
 
 - name: "Install inventory mapping and setup all remote nodes"
-  hosts: devs, nodes
+  hosts: all
   become: true # newer ansible version of 'sudo'
   gather_facts: no
   pre_tasks:
@@ -17,8 +17,11 @@
     args:
       executable: '/bin/bash'
 
-- hosts: devs
+- name: "Install and setup dev environments"
+  hosts: devs
   become: true # newer ansible version of 'sudo'
+  vars:
+    group: 'devs'
   tasks:
     - name: "install git"
       apt:
@@ -30,11 +33,11 @@
         state: latest
     - name: "setup dev folder"
       file:
-        path: /code
+        path: '/{{ group }}'
         state: directory
     - name: "add dev group"
       group:
-        name: developers
+        name: '{{ group }}'
         state: present
 
 - name: "Install and setup node environments"
