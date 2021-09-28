@@ -3,16 +3,16 @@
 - name: "Install inventory mapping and setup all remote nodes"
   hosts: all
   become: true # newer ansible version of 'sudo'
-  gather_facts: no
+  gather_facts: false # comment out if preferred
   pre_tasks:
-  - name: Add Ansible inventory mappings to /etc/hosts
+  - name: "Add Ansible inventory mappings to /etc/hosts"
     blockinfile:
-      path: /etc/hosts
+      path: '/etc/hosts'
       block: |
         {% for host in groups['all'] %}
         {{ hostvars[host].ansible_host }} {{ host }}
         {% endfor %}
-  - name: install python
+  - name: "Install python"
     raw: 'cat < ~/python-remote-setup.sh'
     args:
       executable: '/bin/bash'
@@ -23,19 +23,19 @@
   vars:
     group: 'devs'
   tasks:
-    - name: "install git"
+    - name: "Install git"
       apt:
         name: git
         state: latest
-    - name: "install vim"
+    - name: "Install vim"
       apt:
         name: vim
         state: latest
-    - name: "setup dev folder"
+    - name: "Setup dev folder"
       file:
         path: '/{{ group }}'
         state: directory
-    - name: "add dev group"
+    - name: "Add dev group"
       group:
         name: '{{ group }}'
         state: present
