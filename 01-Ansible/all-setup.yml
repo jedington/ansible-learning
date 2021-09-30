@@ -1,5 +1,3 @@
-# store in controller host '~/<this file>'
-
 - name: "Install inventory mapping and setup all remote nodes"
   hosts: all
   become: true # newer ansible version of 'sudo'
@@ -12,10 +10,6 @@
         {% for host in groups['all'] %}
         {{ hostvars[host].ansible_host }} {{ host }}
         {% endfor %}
-  - name: "Install python"
-    raw: 'cat < ~/python-remote-setup.sh'
-    args:
-      executable: '/bin/bash'
 
 - name: "Install and setup dev environments"
   hosts: devs
@@ -23,14 +17,12 @@
   vars:
     group: 'devs'
   tasks:
-    - name: "Install git"
-      apt:
-        name: git
-        state: latest
-    - name: "Install vim"
-      apt:
-        name: vim
-        state: latest
+    - name: "Install dev packages"
+      action: >
+        {{ ansible_pkg_mgr }} name={{ item }} state=latest update_cache=yes
+      with_items: 
+        - git
+        - nvim
     - name: "Setup dev folder"
       file:
         path: '/{{ group }}'
