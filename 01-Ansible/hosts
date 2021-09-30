@@ -1,15 +1,15 @@
 # store in /etc/ansible/<this file> of the controller
 
 [controller]
-controller ansible_host=10.10.10.10 ansible_user=root
+controller ansible_host=10.10.10.10 ansible_user=vagrant
 #- localhost ansible_connection=local ansible_user=root
 
 [nodes] # ip changes depending on vm setup
-node1 ansible_host=10.10.10.11 ansible_user=root
-node2 ansible_host=10.10.10.12 ansible_user=root
-node3 ansible_host=10.10.10.13 ansible_user=root
+node1 ansible_host=10.10.10.11 ansible_user=vagrant
+node2 ansible_host=10.10.10.12 ansible_user=vagrant
+node3 ansible_host=10.10.10.13 ansible_user=vagrant
 
 [devs] # ip changes depending on vm setup
-dev1 ansible_host=10.10.10.21 ansible_user=root
-dev2 ansible_host=10.10.10.22 ansible_user=root
-dev3 ansible_host=10.10.10.23 ansible_user=root
+dev1 ansible_host=10.10.10.21 ansible_user=vagrant
+dev2 ansible_host=10.10.10.22 ansible_user=vagrant
+dev3 ansible_host=10.10.10.23 ansible_user=vagrant
