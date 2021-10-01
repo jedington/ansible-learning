@@ -1,14 +1,15 @@
 # store in /etc/ansible/<this file> of the controller
 
 [controller]
-localhost ansible_host=127.0.0.1 ansible_user=vagrant ansible_connection=local
+localhost ansible_host=10.10.10.10 ansible_user=vagrant ansible_connection=local
+#- controller ansible_host=10.10.10.10 ansible_user=vagrant ansible_connection=ssh
 
 [nodes]
-node1 ansible_host=10.10.10.11 ansible_user=vagrant ansible_connection=ssh
-node2 ansible_host=10.10.10.12 ansible_user=vagrant ansible_connection=ssh
-node3 ansible_host=10.10.10.13 ansible_user=vagrant ansible_connection=ssh
+node1 ansible_host=10.10.10.11 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.ssh/id_rsa
+node2 ansible_host=10.10.10.12 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.ssh/id_rsa
+node3 ansible_host=10.10.10.13 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.ssh/id_rsa
 
 [devs]
-dev1 ansible_host=10.10.10.21 ansible_user=vagrant ansible_connection=ssh
-dev2 ansible_host=10.10.10.22 ansible_user=vagrant ansible_connection=ssh
-dev3 ansible_host=10.10.10.23 ansible_user=vagrant ansible_connection=ssh
+dev1 ansible_host=10.10.10.21 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.ssh/id_rsa
+dev2 ansible_host=10.10.10.22 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.ssh/id_rsa
+dev3 ansible_host=10.10.10.23 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.ssh/id_rsa
