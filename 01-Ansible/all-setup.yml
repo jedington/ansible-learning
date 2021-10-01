@@ -10,6 +10,12 @@
         {% for host in groups['all'] %}
         {{ hostvars[host].ansible_host }} {{ host }}
         {% endfor %}
+  - name: "Install updates for centos systems"
+    yum: name=* state=latest update_cache=yes
+    when: ansible_distribution == "CentOS"
+  - name: "Install updates for ubuntu systems"
+    apt: upgrade=dist update_cache=yes
+    when: ansible_distribution == "Ubuntu"
 
 - name: "Install and setup dev environments"
   hosts: devs
