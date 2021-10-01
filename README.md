@@ -8,19 +8,39 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 [![Twitter][twitter-shield]][twitter-url]
 
-# ansible-learning (with some Vagrant)
-1. Install [VirtualBox](https://www.virtualbox.org) on your local host
-2. Install [Vagrant](https://www.vagrantup.com/docs/installation) on your local host.
-3. Setup Vagrant via instructions from source.
-4. Run Vagrant via CLI of choice and begin with using Vagrantfile (replace default with the one from this repo).
-5. Clone this repo into the Controller Node. Can use any means.
-    - Navigate into Controller Node, then do something like below:
-    - [Example] CLI/run: `git clone jedington/ansible-learning.git`
-6. Copy files from '../01-Ansible/(copy-files-here)' into Controller Node '~/(paste-files-here)'. 
-7. Figure out auth for remote hosts, can use 'ssh-setup-example.sh', edit the Node IPs if you need to.
-    - [Example] CLI/run: `sudo ssh-setup-example.sh`.
-8. CLI/run: `sudo ansible-playbook -i ~/ all-setup.yml`
-
+# ansible-learning (with Vagrant)
+1. Download and Install [VirtualBox](https://www.virtualbox.org). Use link for Windows.
+    - [Example-Ubuntu-Linux]: `sudo apt install virtualbox -y`
+2. Download and Install [Git](https://git-scm.com/downloads). Use link for Windows.
+    - [Example-Ubuntu-Linux]: `sudo apt install git -y`
+3. Download and Install [Vagrant](https://www.vagrantup.com/docs/installation). Use link for Windows.
+    - [Example-Ubuntu-Linux]: `sudo apt install vagrant -y`
+4. Any CLI of choice is fine for Linux. __Strongly recommend__ Git Bash for Windows.
+5. Clone this repo into your local client. Be aware of what your current directory is.
+    - [Example] `git clone https://github.com/jedington/ansible-learning.git`
+6. Setup Vagrant, [getting started guide](https://learn.hashicorp.com/collections/vagrant/getting-started) from the source. Also, check out this cool [Cheat Sheet](https://gist.github.com/wpscholar/a49594e2e2b918f4d0c4).
+    1. [Run] `vagrant init`
+    2. Replace the default Vagrantfile with the one from this repo.
+        - [Example-Linux] `sudo cp -f ~/ansible-learning/00-Vagrant/Vagrantfile ~/Vagrantfile`
+        - [Example-Windows] `cp -f C:\\Users\\[your_username]\\ansible-learning\\00-Vagrant\\Vagrantfile C:\\Users\\[your_username]\\Vagrantfile`
+    3. [Run] `vagrant up`
+        - [Optional] `vagrant ssh-config` (shows SSH config of nodes; Vagrant [SSH Guide](https://www.vagrantup.com/docs/cli/ssh))
+        - [Optional] `vagrant status` (checks states of machines; see cheat cheat for more commands)
+7. Setup the Controller.
+    1. Log into the Controller Node.
+        - [Run] `vagrant ssh controller`
+    2. Clone this repo (again) into the Controller. Be aware of what your current directory is.
+        - [Run] `git clone https://github.com/jedington/ansible-learning.git`
+    3. Changing permissions to allow execution of scripts.
+        - [Run] `sudo chmod 755 ~/ansible-learning/`
+    4. Replace the default Ansible 'hosts' (inventory) file with our own.
+        - [Run] `sudo cp -f ~/ansible-learning/01-Ansible/hosts /etc/ansible/hosts`
+    5. Replace the default Ansible 'ansible.cfg' (configuration) file with our own.
+        - [Run] `sudo cp -f ~/ansible-learning/01-Ansible/ansible.cfg /etc/ansible/ansible.cfg`
+    6. Auth for remote hosts (from within Controller).
+        - [Run] `sudo ~/ansible-learning/01-Ansible/ssh-setup-example.sh`.
+8. Configure Remote Nodes with Ansible! Run the playbook; feel free to customize 'all-setup.yml' file.
+    - [Run] `sudo ansible-playbook ~/ansible-learning/01-Ansible/all-setup.yml`
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -35,6 +55,6 @@
 [license-shield]: https://img.shields.io/github/license/jedington/ansible-learning.svg?style=for-the-badge
 [license-url]: https://github.com/jedington/ansible-learning/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://www.linkedin.com/in/julian-edington/
+[linkedin-url]: https://www.linkedin.com/in/julian-edington
 [twitter-shield]: https://img.shields.io/twitter/follow/arcanicvoid?style=for-the-badge&logo=twitter&colorB=555
 [twitter-url]: https://twitter.com/arcanicvoid
