@@ -1,7 +1,7 @@
 - name: "Install inventory mapping and setup all remote nodes"
   hosts: devs, nodes
+  #- gather_facts: false # comment out if preferred
   become: true # newer ansible version of 'sudo'
-  gather_facts: false # comment out if preferred
   pre_tasks:
   - name: "Add Ansible inventory mappings to /etc/hosts"
     blockinfile:
@@ -10,13 +10,17 @@
         {% for host in groups['all'] %}
         {{ hostvars[host].ansible_host }} {{ host }}
         {% endfor %}
-  # #will have to troubleshoot later
-  # - name: "Install updates for centos systems"
-  #   yum: name=* state=latest update_cache=yes
-  #   when: ansible_distribution == "CentOS"
-  # - name: "Install updates for ubuntu systems"
-  #   apt: upgrade=dist update_cache=yes
-  #   when: ansible_distribution == "Ubuntu"
+       
+- name: "Update all nodes"
+  hosts: all
+  become: true # newer ansible version of 'sudo'
+  tasks:
+  - name: "Install updates for RedHat OS Families"
+    yum: name=* state=latest update_cache=yes
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'Fedora'
+  - name: "Install updates for Debian OS Families"
+    apt: upgrade=dist update_cache=yes
+    when: ansible_distribution == 'Debian' or ansible_distribution == 'Kali' or ansible_distribution == 'Ubuntu'
 
 - name: "Install and setup dev environments"
   hosts: devs
@@ -29,7 +33,7 @@
         {{ ansible_pkg_mgr }} name={{ item }} state=latest update_cache=yes
       with_items: 
         - git
-        - nvim
+        - neovim
     - name: "Setup dev folder"
       file:
         path: '/{{ group }}'
