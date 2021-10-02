@@ -9,12 +9,13 @@
 [![Twitter][twitter-shield]][twitter-url]
 
 # ansible-learning (with Vagrant)
+0. This entire set of installs & configurations of VMs will take up about 20 GBs of drive space.
+    - Additionally wouldn't hurt to have a CPU that can handle the abrupt tasks of Vagrant/VirtualBox.
+    - Approximately 8 GBs of RAM recommended to run the tasks as well.
 1. Download and Install [VirtualBox](https://www.virtualbox.org). Use link for Windows.
-    - [Example-Ubuntu-Linux]: `sudo apt install virtualbox -y`
 2. Download and Install [Git](https://git-scm.com/downloads). Use link for Windows.
-    - [Example-Ubuntu-Linux]: `sudo apt install git -y`
 3. Download and Install [Vagrant](https://www.vagrantup.com/docs/installation). Use link for Windows.
-    - [Example-Ubuntu-Linux]: `sudo apt install vagrant -y`
+    - [Example-Ubuntu-Linux]: `sudo apt install git vagrant virtualbox -y` (will install all 3)
 4. Any CLI of choice is fine for Linux. __Strongly recommend__ Git Bash for Windows.
 5. Clone this repo into your local client. Be aware of what your current directory is.
     - [Example] `git clone https://github.com/jedington/ansible-learning.git`
@@ -23,7 +24,7 @@
     2. Replace the default Vagrantfile with the one from this repo.
         - [Example-Linux] `sudo cp -f ~/ansible-learning/00-Vagrant/Vagrantfile ~/Vagrantfile`
         - [Example-Windows] `cp -f C:\\Users\\[your_username]\\ansible-learning\\00-Vagrant\\Vagrantfile C:\\Users\\[your_username]\\Vagrantfile`
-    3. [Run] `vagrant up`
+    3. [Run] `vagrant up` (will take up to 20 minutes, sets up 7 VMs+scripts for configurations)
         - [Optional] `vagrant ssh-config` (shows SSH config of nodes; Vagrant [SSH Guide](https://www.vagrantup.com/docs/cli/ssh))
         - [Optional] `vagrant status` (checks states of machines; see cheat cheat for more commands)
 7. Setup the Controller.
@@ -31,14 +32,20 @@
         - [Run] `vagrant ssh controller`
     2. Clone this repo (again) into the Controller. Be aware of what your current directory is.
         - [Run] `git clone https://github.com/jedington/ansible-learning.git`
-    3. Changing permissions to allow execution of scripts.
-        - [Run] `sudo chmod 755 ~/ansible-learning/`
+    3. Changing permissions to allow execution of scripts to setup Ansible.
+        - [Run] `sudo chmod -R 755 ~/ansible-learning/01-Ansible`
     4. Replace the default Ansible 'hosts' (inventory) file with our own.
         - [Run] `sudo cp -f ~/ansible-learning/01-Ansible/hosts /etc/ansible/hosts`
     5. Replace the default Ansible 'ansible.cfg' (configuration) file with our own.
         - [Run] `sudo cp -f ~/ansible-learning/01-Ansible/ansible.cfg /etc/ansible/ansible.cfg`
     6. Auth for remote hosts (from within Controller).
-        - [Run] `sudo ~/ansible-learning/01-Ansible/ssh-setup-example.sh`.
+        - [Run] `~/ansible-learning/01-Ansible/ssh-setup-example.sh`.
+        - [Note] this will prompt for passwords for each VM; default password is `vagrant` :)
+
+| ![Success!][project-screenshot] | 
+|:--:| 
+| *Success!* |
+
 8. Configure Remote Nodes with Ansible! Run the playbook; feel free to customize 'all-setup.yml' file.
     - [Run] `sudo ansible-playbook ~/ansible-learning/01-Ansible/all-setup.yml`
 
@@ -58,3 +65,4 @@
 [linkedin-url]: https://www.linkedin.com/in/julian-edington
 [twitter-shield]: https://img.shields.io/twitter/follow/arcanicvoid?style=for-the-badge&logo=twitter&colorB=555
 [twitter-url]: https://twitter.com/arcanicvoid
+[project-screenshot]: images/success.png
