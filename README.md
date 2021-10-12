@@ -15,15 +15,15 @@
 1. Download and Install [VirtualBox](https://www.virtualbox.org). Use link for Windows.
 2. Download and Install [Git](https://git-scm.com/downloads). Use link for Windows.
 3. Download and Install [Vagrant](https://www.vagrantup.com/docs/installation). Use link for Windows.
-    - [Example-Ubuntu-Linux]: `sudo apt install git vagrant virtualbox -y` (will install all 3)
-4. Any CLI of choice is fine for Linux. __Strongly recommend__ Git Bash for Windows.
+    - [Example-Ubuntu-Linux]: `sudo apt install git vagrant virtualbox -y` (installs all 3)
+4. Any variant of Bash CLI/Terminal is fine for Linux/Mac. <ins>__Use Git Bash for Windows__</ins>.
 5. Clone this repo into your local client. We're going to force this into the user folder.
-        - [Run] `git clone https://github.com/jedington/ansible-learning.git ~/ansible-learning`
+    - [Run] `git clone https://github.com/jedington/ansible-learning.git ~/ansible-learning`
 6. Setup Vagrant, [getting started guide](https://learn.hashicorp.com/collections/vagrant/getting-started) from the source. Also, check out this cool [Cheat Sheet](https://gist.github.com/wpscholar/a49594e2e2b918f4d0c4).
     1. [Run] `vagrant init`
     2. Replace the default Vagrantfile with the one from this repo.
         - [Example-Linux] `sudo cp -f ~/ansible-learning/00-Vagrant/Vagrantfile ~/Vagrantfile`
-        - [Example-Windows] `cp -f ~/ansible-learning\\00-Vagrant\\Vagrantfile ~/Vagrantfile`
+        - [Example-Windows-GitBash] `cp -f ~/ansible-learning\\00-Vagrant\\Vagrantfile ~/Vagrantfile`
     3. [Run] `vagrant up` (will take up to 20 minutes, sets up 7 VMs+scripts for configurations)
         - [Optional] `vagrant ssh-config` (shows SSH config of nodes; Vagrant [SSH Guide](https://www.vagrantup.com/docs/cli/ssh))
         - [Optional] `vagrant status` (checks states of machines; see cheat cheat for more commands)
