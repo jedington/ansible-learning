@@ -19,38 +19,71 @@ osInfo[/etc/redhat-release]="yum"
 for f in ${!osInfo[@]}
 do
     if [[ -f $f ]];then
-        package_manager=${osInfo[$f]}
+		pkg_mgr=${osInfo[$f]}
     fi
 done
 
-sudo $package_manager update
-sudo $package_manager upgrade
-if [ $package_manager=="apt" ]
+sudo $pkg_mgr update && sudo $pkg_mgr upgrade
+if [ $pkg_mgr=="apt" ]
 then
     sudo apt install software-properties-common -y
     sudo -E apt-add-repository -y 'ppa:deadsnakes/ppa'
     sudo -E apt-add-repository -y 'ppa:ansible/ansible'
-    sudo apt update
 fi
 
-sudo $package_manager install git -y
-sudo $package_manager install python3 -y
-sudo $package_manager update
-
-#- sudo $package_manager remove ansible && sudo $package_manager --purge autoremove 
+sudo $pkg_mgr update
+sudo $pkg_mgr install git python3 ansible -y
+sudo $pkg_mgr upgrade && sudo $pkg_mgr autoclean && sudo $pkg_mgr autoremove
+ansible --version | grep "python version" # optional
+#- sudo $pkg_mgr remove ansible && sudo $pkg_mgr --purge autoremove 
 # ^ if older/stale ansible version exists ^
-sudo $package_manager install ansible -y
-#- ansible --version | grep "python version" # optional
 
-echo "
-10.10.10.10 controller
-10.10.10.11 node1
-10.10.10.12 node2
-10.10.10.13 node3
-10.10.10.21 dev1
-10.10.10.22 dev2
-10.10.10.23 dev3
-" >> /etc/hosts
+while IFS= read -r line ; do
+    if ! grep -Fqxe "$line" /etc/hosts ; then
+        printf "%s\n" "$line" >> /etc/hosts
+    fi
+done <<- EOM
+
+	### ###### ###
+	# /etc/hosts #
+	# ## #### ## #
+
+	10.10.10.10 controller
+	10.10.10.11 node1
+	10.10.10.12 node2
+	10.10.10.13 node3
+	10.10.10.21 dev1
+	10.10.10.22 dev2
+	10.10.10.23 dev3
+
+EOM
+
+while IFS= read -r line ; do
+    if ! grep -Fqxe "$line" /etc/ansible/hosts ; then
+        printf "%s\n" "$line" >> /etc/ansible/hosts
+    fi
+done <<- EOM
+
+	### ### ###### ### ###
+	# /etc/ansible/hosts #
+	# ## ### #### ### ## #
+
+	[controller]
+	controller ansible_host=10.10.10.10 ansible_user=vagrant
+	#- localhost ansible_host=127.0.0.1 ansible_user=vagrant ansible_connection=local
+
+	[nodes]
+	node1 ansible_host=10.10.10.11 ansible_user=vagrant
+	node2 ansible_host=10.10.10.12 ansible_user=vagrant
+	node3 ansible_host=10.10.10.13 ansible_user=vagrant
+
+	[devs]
+	dev1 ansible_host=10.10.10.21 ansible_user=vagrant
+	dev2 ansible_host=10.10.10.22 ansible_user=vagrant
+	dev3 ansible_host=10.10.10.23 ansible_user=vagrant
+
+EOM
+
 SCRIPT
 
 
@@ -70,21 +103,21 @@ osInfo[/etc/redhat-release]="yum"
 for f in ${!osInfo[@]}
 do
     if [[ -f $f ]];then
-        package_manager=${osInfo[$f]}
+		pkg_mgr=${osInfo[$f]}
     fi
 done
 
-sudo $package_manager update
-sudo $package_manager upgrade
-if [ $package_manager=="apt" ]
+sudo $pkg_mgr update && sudo $pkg_mgr upgrade
+if [ $pkg_mgr=="apt" ]
 then
     sudo apt install software-properties-common -y
     sudo -E apt-add-repository -y 'ppa:deadsnakes/ppa'
-    sudo apt update
 fi
 
-sudo $package_manager install python3 -y
-sudo $package_manager update
+sudo $pkg_mgr update
+sudo $pkg_mgr install python3 -y
+sudo $pkg_mgr upgrade && sudo $pkg_mgr autoclean && sudo $pkg_mgr autoremove
+
 SCRIPT
 
 
@@ -93,7 +126,6 @@ Vagrant.configure("2") do |config|
 	# ensures that the SSH keys generated are the same across all hosts
 	config.ssh.insert_key = false
 	#- config.ssh.private_key_path = File.expand_path('~/.vagrant.d/insecure_private_key')
-	# Must specify `id: "ssh"` in order to override the default forwarded SSH port.
 	#- config.vm.network :forwarded_port, guest: 22, host: 2266, id: "ssh"
 	#- config.vm.provision "file", source: "~/.vagrant.d/insecure_private_key", destination: "~/.vagrant.d/insecure_private_key"
 	config.vm.provider "virtualbox" do |v|
@@ -112,19 +144,19 @@ Vagrant.configure("2") do |config|
 	(1..3).each do |i|
 		config.vm.define "node#{i}" do |node|
 			node.vm.box = "bento/ubuntu-20.04"
-			# Feel free to try alt LinuxOS options
 			node.vm.hostname = "node#{i}"
 			node.vm.network :private_network, ip: "10.10.10.1#{i}"
 			node.vm.provision :shell, inline: $remotes
+			#- node.vm.provision :shell, path: 'python-remote-setup.sh'
 		end
 	end
 	(1..3).each do |j|
 		config.vm.define "dev#{j}" do |dev|
 			dev.vm.box = "bento/ubuntu-20.04"
-			# Feel free to try alt LinuxOS options
 			dev.vm.hostname = "dev#{j}"
 			dev.vm.network :private_network, ip: "10.10.10.2#{j}"
 			dev.vm.provision :shell, inline: $remotes
+			#- dev.vm.provision :shell, path: 'python-remote-setup.sh'
 		end
 	end
 end
