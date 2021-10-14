@@ -24,9 +24,10 @@
     2. Replace the default Vagrantfile with the one from this repo.
         - [Example-Linux] `sudo cp -f ~/ansible-learning/00-Vagrant/Vagrantfile ~/Vagrantfile`
         - [Example-Windows-GitBash] `cp -f ~/ansible-learning\\00-Vagrant\\Vagrantfile ~/Vagrantfile`
+        - [NOTE] Feel free to read through the Vagrantfile and what it's doing. Really powerful.
     3. [Run] `vagrant up` (will take up to 20 minutes, sets up 7 VMs+scripts for configurations)
         - [Optional] `vagrant ssh-config` (shows SSH config of nodes; Vagrant [SSH Guide](https://www.vagrantup.com/docs/cli/ssh))
-        - [Optional] `vagrant status` (checks states of machines; see cheat cheat for more commands)
+        - [Optional] `vagrant status` (checks states of machines; see [Cheat Sheet](https://gist.github.com/wpscholar/a49594e2e2b918f4d0c4) for more commands)
 7. Setup the Controller.
     1. Log into the Controller Node.
         - [Run] `vagrant ssh controller`
@@ -34,13 +35,11 @@
         - [Run] `git clone https://github.com/jedington/ansible-learning.git ~/ansible-learning/`
     3. Changing permissions to allow execution of scripts to setup Ansible.
         - [Run] `sudo chmod -R 755 ~/ansible-learning/01-Ansible`
-    4. Replace the default Ansible 'hosts' (inventory) file with our own.
-        - [Run] `sudo cp -f ~/ansible-learning/01-Ansible/hosts /etc/ansible/hosts`
-    5. Replace the default Ansible 'ansible.cfg' (configuration) file with our own.
+    4. Replace the default Ansible 'ansible.cfg' (configuration) file with our own.
         - [Run] `sudo cp -f ~/ansible-learning/01-Ansible/ansible.cfg /etc/ansible/ansible.cfg`
-    6. Auth for remote hosts (from within Controller).
+    5. Auth for remote hosts (from within Controller).
         - [Run] `~/ansible-learning/01-Ansible/ssh-setup-example.sh`.
-        - [Note] this will prompt for passwords for each VM; default password is `vagrant` :)
+        - [Note] this will prompt for passwords for each VM; default password is `vagrant` 😊.
 
 | ![Success!][project-screenshot] | 
 |:--:| 
