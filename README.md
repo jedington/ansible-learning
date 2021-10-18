@@ -9,6 +9,13 @@
 [![Twitter][twitter-shield]][twitter-url]
 
 # ansible-learning (with Vagrant)
+
+Recommended Knowledge Beforehand:
+- Basics of VM tools: VMware / Hyper-V / Virtualbox.
+- Linux: using commands, vi text editors.
+- Foundational DevOps understanding.
+
+## Pre-reqs
 0. This entire set of installs & configurations of VMs will take up about 20 GBs of drive space.
     - Additionally wouldn't hurt to have a CPU that can handle the abrupt tasks of Vagrant/VirtualBox.
     - Approximately 8 GBs of RAM recommended to run the tasks as well.
