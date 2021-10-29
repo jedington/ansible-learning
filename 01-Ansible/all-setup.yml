@@ -1,7 +1,10 @@
-- name: "Install inventory mapping and setup all remote nodes"
+- name: "Install inventory mapping and setup remote nodes"
   hosts: devs, nodes
-  #- gather_facts: false # comment out if preferred
+  remote_user: vagrant
+  gather_facts: true
   become: true # newer ansible version of 'sudo'
+  become_method: sudo
+  connection: ssh
   pre_tasks:
   - name: "Add Ansible inventory mappings to /etc/hosts"
     blockinfile:
@@ -11,9 +14,13 @@
         {{ hostvars[host].ansible_host }} {{ host }}
         {% endfor %}
        
-- name: "Update all nodes"
+- name: "Update packages for all nodes"
   hosts: all
+  remote_user: vagrant
+  gather_facts: true
   become: true # newer ansible version of 'sudo'
+  become_method: sudo
+  connection: ssh
   tasks:
   - name: "Install updates for RedHat OS Families"
     yum: name=* state=latest update_cache=yes
@@ -24,7 +31,11 @@
 
 - name: "Install and setup dev environments"
   hosts: devs
+  remote_user: vagrant
+  gather_facts: true
   become: true # newer ansible version of 'sudo'
+  become_method: sudo
+  connection: ssh
   vars:
     group: 'devs'
   tasks:
@@ -45,6 +56,9 @@
 
 - name: "Install and setup node environments"
   hosts: nodes
+  remote_user: vagrant
+  gather_facts: true
+  connection: ssh
   vars:
     home: '/home/vagrant' # can change depending on hierarchy pref
     images: '/home/vagrant/images' # can change depending on hierarchy pref
