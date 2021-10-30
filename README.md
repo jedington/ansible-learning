@@ -8,7 +8,7 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 [![Twitter][twitter-shield]][twitter-url]
 
-# ansible-learning (with Vagrant)
+<img src="https://readme-typing-svg.herokuapp.com?lines=Ansible%20Learning&size=30" alt="Ansible Learning"/> 
 
 Recommended Knowledge Beforehand:
 - Basics of VM tools: VMware / Hyper-V / Virtualbox.
